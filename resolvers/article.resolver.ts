@@ -3,12 +3,24 @@ import Category from "../models/category,model";
 
 export const resolversArticle = {
   Query: {
-    getListArticle: async () => {
+    getListArticle: async (_, args) => {
+      const { sortKey, sortValue } = args;
+
+      // Sort
+      const sort = {};
+
+      if (sortKey && sortValue) {
+        sort[sortKey] = sortValue;
+      }
+      // End Sort
+
       const articles = await Article.find({
         deleted: false,
-      });
+      }).sort(sort);
+
       return articles;
     },
+    
     getArticle: async (_, args) => {
       const { id } = args;
 
@@ -18,17 +30,16 @@ export const resolversArticle = {
       });
       return articles;
     },
-
   },
   Article: {
     category: async (article) => {
       const categoryId = article.categoryId;
 
       const category = await Category.findOne({
-        _id: categoryId
+        _id: categoryId,
       });
       return category;
-    }
+    },
   },
   Mutation: {
     createArticle: async (_, args) => {
