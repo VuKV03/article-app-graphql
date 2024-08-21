@@ -9,7 +9,15 @@ export const resolvers = {
       const articles = await Article.find({
         deleted: false,
       });
+      return articles;
+    },
+    getArticle: async (_, args) => {
+      const { id } = args;
 
+      const articles = await Article.findOne({
+        _id: id,
+        deleted: false,
+      });
       return articles;
     },
   },
