@@ -9,12 +9,21 @@ export const typeDefsUser = gql`
     email: String,
     token: String
   }
+
   input UserInput {
     fullName: String,
     email: String,
     password: String
   }
+
+  input LoginUserInput {
+    fullName: String,
+    email: String,
+    password: String
+  }
+
   type Mutation {
-    registerUser(user: UserInput): User
+    registerUser(user: UserInput): User,
+    loginUser(user: LoginUserInput): User,
   }
 `
